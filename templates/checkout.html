@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="container" align="center">
+
+        <table class="table table-bordered table-hover table-striped" style="margin-top: 100px;">
+          <thead class="thead-dark">
+            <th>PRODUCT</th>
+            <th>QUANTITY</th>
+            <th>PRICE</th>
+          </thead>
+          <tr>
+            <td id="first"></td>
+            <td id="second"></td>
+            <td id="third"></td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td style="font-weight: 900; color: green;">TOTAL:</td>
+            <td id="fourth" style="font-weight: 900; color: red;"></td>
+          </tr>
+
+        </table>
+
+        <a href="/form" class="btn btn-dark">CONTINUE</a>
+
+    </div>
+    
+</body>
+
+
+<script>
+
+    if(localStorage.getItem('cart') == null)
+    {
+      var cart = {}
+    }
+    
+    else
+    {
+      cart=JSON.parse(localStorage.getItem('cart'))
+    }
+    
+    var total = 0
+    
+    for(var i in cart)//keys
+    {
+      quantity=cart[i][0]
+    
+      name=cart[i][1]
+    
+      price=cart[i][2]
+    
+      total=total+price
+      
+    
+      $("#first").append(`${name}<br>`)
+    
+      $("#second").append(`${quantity}<br>`)
+    
+      $("#third").append(`${price}<br>`)
+    
+      
+    }
+    
+    $("#fourth").append(`INR.${total}`)
+    
+    </script>
+
+
+
+
+</html>

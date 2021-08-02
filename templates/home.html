@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static "style.css"  %}">
+    <title>Document</title>
+    
+</head>
+<body>
+
+    <div class="container" align="center">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="font-family: Georgia, 'Times New Roman', Times, serif;">
+          
+            <img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWvTeDDMbAKtH_znd5-4p5y2n4q0D4X1G4xw&usqp=CAU">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/read">Home <span class="sr-only">(current)</span></a>
+                </li>
+                
+                <li class="nav-item active">
+                  <a class="nav-link" href="/contactus">Contact us<span class="sr-only">(current)</span></a>
+                </li>
+                
+                <li class="nav-item">
+                  <button type="button" class="btn btn-secondary" data-html="true" id="cart" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
+                  sagittis lacus vel augue laoreet rutrum faucibus.">
+                    Popover on bottom
+                  </button>
+                </li>
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="/accounts/login">Login<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/signup">Sign up<span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <span id="hello-msg" style="font-size: 18px; color:rgb(181, 204, 50); margin: left 50px;">Hello,{{request.user}}</span>
+
+                </li>
+
+              </ul>
+              <form class="form-inline my-2 my-lg-0" method="POST" id="inputField">
+                  {% csrf_token %}
+                <input class="form-control mr-sm-2"  name="search" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav><br>
+
+
+          <div class="row">
+            {% for i in all_products %}
+              <div class="col-md-4">
+
+
+                <div class="fluid-raised-card" style="width: 18rem;" >
+                    <img class="card-img-top" src="{{i.image}}" alt="Card image cap" style width="100px">
+                    <div class="card-body" id="data">
+                      <div class="card-title-data" id="n{{i.id}}"  style="font-size: 20px; font-weight: 500; color:crimson;">{{i.name}}</div>
+                      <div class="card-title" style="font-weight: 800; font-family: sans-serif; color: red;">
+                        INR.<strike>{{i.originalPrice}}</strike>
+                      </div>
+                      <div class="card-title" id="p{{i.id}}" style="font-weight: 800; font-family: sans-serif; color: green;">
+                        {{i.discountedPrice}}
+                     </div>
+                     <button class="btn atc btn-success" id="{{i.id}}">Add To Cart</button>
+                     <a href="{{i.get_absolute_url}}" class="btn btn-primary">View details</a>
+                    </div>
+                  </div>
+
+              </div><br>
+              {% endfor %}
+          </div>
+
+
+    </div>
+
+</body>
+
+<script>
+
+if(localStorage.getItem('cart') == null)
+{
+  var cart = {}
+}
+
+else
+{
+  cart = JSON.parse(localStorage.getItem('cart'))
+}
+
+$(document).on('click','.atc',function()
+{
+
+     var item_id=this.id
+     
+     if( cart[item_id] != undefined )
+     {
+       quantity = cart[item_id][0] + 1
+       cart[item_id][0] = quantity
+       cart[item_id][2] = cart[item_id][2] + parseInt(document.getElementById("p"+item_id).innerText)
+
+
+     }
+     else
+     {
+       quantity = 1
+       name=document.getElementById("n"+item_id).innerText
+       price=parseInt(document.getElementById("p"+item_id).innerText)//8999
+       cart[item_id]=[quantity,name,price]
+
+     }
+
+    localStorage.setItem('cart',JSON.stringify(cart))
+    //console.log(cart)
+
+})
+
+document.getElementById("cart").innerText = "Cart("+Object.keys(cart).length+")"
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+
+  document.getElementById("cart").setAttribute("data-content","<h4>This is my Cart</h4>")
+})
+
+
+displayCart(cart)
+function displayCart(mycart)
+{
+
+  var cartString=""
+  cartString = cartString + "<h4>This is my Cart</h4>"
+
+  for(var i in mycart)
+  {
+    cartString = cartString + ""+document.getElementById("n"+i).textContent + " Quantity:"+ mycart[i][0] +"</br>"
+  }
+  cartString = cartString + "<a href='/checkout' class='btn btn-outline-danger'>Proceed to checkout</a>"
+
+  $(function () {
+  $('[data-toggle="popover"]').popover()
+
+  document.getElementById("cart").setAttribute("data-content",cartString)
+})
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+</html>

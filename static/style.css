@@ -1,0 +1,14 @@
+#inputField > input
+        {
+            width: 200px;
+        }
+.logo{
+    width:100px;
+    height: 50px;
+}
+.search{
+    border-radius: 5px;
+}
+body{
+    background-color:aliceblue;
+}

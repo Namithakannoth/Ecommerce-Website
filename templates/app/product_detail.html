@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Document</title>
+
+    <style>
+        #card
+        {
+            margin-left: 250px;
+            margin-top: 180px;
+            height: 400px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body style="background-color:aquamarine;">
+
+    <div class="card border-success mb-3"  align="center" style="max-width: 800px;" id="card">
+        <div class="card-header" style="font-style: italic;">Description</div>
+        <div class="card-body text-success">
+          <ul><li>{{product.description}}</li></ul>
+          <a href="/read" class="btn btn-dark">go back</a>
+        </div>
+      </div>
+    
+</body>
+</html>
